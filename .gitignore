@@ -1,0 +1,12 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Éditeurs / tooling local
+.claude/
+*.swp
+*.log
+
+# Node (aucune dépendance, mais au cas où)
+node_modules/
