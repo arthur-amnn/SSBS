@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programme Street Lifting — 11 Semaines</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e0e11; --bg2:#16161c; --bg3:#1e1e26; --line:#2c2c36;
+    --text:#ece8e1; --muted:#9a958b; --muted2:#6f6b63;
+    --accent:#e8a33d; --accent-soft:#e8a33d22; --pr:#ff4d3d;
+    --pull:#4aa3ff; --push:#e8a33d; --legs:#4cce72; --vol:#a878ff; --hiit:#2bd4bf;
+    --fd:'Oswald','Arial Narrow',sans-serif;
+    --fb:'Barlow',system-ui,-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--text);font-family:var(--fb);
+    font-size:16.5px;line-height:1.62;-webkit-font-smoothing:antialiased;
+    overflow-x:hidden;position:relative;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .wrap{max-width:1000px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+
+  /* HERO */
+  .hero{padding:78px 0 50px;position:relative}
+  .hero::after{
+    content:"";position:absolute;top:-160px;left:50%;transform:translateX(-50%);
+    width:760px;height:420px;border-radius:50%;z-index:-1;
+    background:radial-gradient(ellipse at center,#e8a33d22 0%,transparent 68%);filter:blur(20px);
+  }
+  .kicker{font-family:var(--fd);font-weight:600;letter-spacing:.42em;text-transform:uppercase;
+    font-size:12px;color:var(--accent);margin-bottom:18px;animation:fade .7s both}
+  h1{font-family:var(--fd);font-weight:700;text-transform:uppercase;line-height:.95;
+    font-size:clamp(44px,8.5vw,92px);letter-spacing:-.01em;margin-bottom:10px;animation:up .7s .05s both}
+  h1 .blk{display:block;color:var(--text)}
+  h1 .acc{display:block;color:var(--accent)}
+  .lede{font-size:clamp(17px,2.4vw,21px);color:var(--text);max-width:60ch;margin:22px 0 8px;
+    border-left:3px solid var(--accent);padding-left:20px;animation:up .7s .12s both}
+  .lede b{color:var(--accent);font-weight:700}
+
+  .stats{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px;animation:up .7s .2s both}
+  .stat{flex:1 1 160px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .stat .v{font-family:var(--fd);font-weight:700;font-size:30px;line-height:1;color:var(--text)}
+  .stat .v.acc{color:var(--accent)}
+  .stat .l{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:8px;font-weight:500}
+
+  /* SECTIONS */
+  section{padding:54px 0;border-top:1px solid var(--line)}
+  .shead{display:flex;align-items:baseline;gap:18px;margin-bottom:30px}
+  .snum{font-family:var(--fd);font-weight:700;font-size:clamp(34px,6vw,58px);color:var(--accent);
+    line-height:.8;opacity:.9;flex:none}
+  .stit{font-family:var(--fd);font-weight:600;text-transform:uppercase;letter-spacing:.02em;
+    font-size:clamp(24px,4.4vw,38px);line-height:1.02}
+  .ssub{color:var(--muted);font-size:15px;margin-top:4px;font-weight:400}
+
+  p{margin-bottom:14px}
+  .lead{font-size:18px}
+  strong,b{font-weight:600;color:#fff}
+  em{color:var(--accent);font-style:normal;font-weight:600}
+
+  /* WHY GRID */
+  .why{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:6px}
+  .whycard{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:22px 24px;
+    border-top:3px solid var(--pr)}
+  .whycard h4{font-family:var(--fd);font-weight:600;text-transform:uppercase;letter-spacing:.04em;
+    font-size:16px;margin-bottom:8px;color:#fff}
+  .whycard p{font-size:14.5px;color:var(--muted);margin:0}
+  .whycard p b{color:var(--text)}
+
+  /* WEEK TABLE */
+  .wkgrid{display:grid;grid-template-columns:1fr;gap:8px}
+  .wkrow{display:grid;grid-template-columns:120px 1fr auto;gap:14px;align-items:center;
+    background:var(--bg2);border:1px solid var(--line);border-left-width:4px;border-radius:10px;padding:14px 18px}
+  .wkrow .day{font-family:var(--fd);font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:16px}
+  .wkrow .ses{font-weight:600;font-size:15.5px}
+  .wkrow .ses small{display:block;color:var(--muted);font-weight:400;font-size:13px;letter-spacing:.02em}
+  .wkrow .dur{font-family:var(--fd);color:var(--muted);font-size:14px;white-space:nowrap;text-align:right}
+  .wkrow.rest{background:#13131a;border-left-color:var(--muted2);opacity:.92}
+  .wkrow.rest .day{color:var(--muted)}
+  .wk-pull{border-left-color:var(--pull)} .wk-pull .day{color:var(--pull)}
+  .wk-push{border-left-color:var(--push)} .wk-push .day{color:var(--push)}
+  .wk-legs{border-left-color:var(--legs)} .wk-legs .day{color:var(--legs)}
+  .wk-vol{border-left-color:var(--vol)} .wk-vol .day{color:var(--vol)}
+  .wk-hiit{border-left-color:var(--hiit)} .wk-hiit .day{color:var(--hiit)}
+
+  /* CALLOUT */
+  .call{background:linear-gradient(180deg,#1a1a22,#16161c);border:1px solid var(--line);
+    border-left:4px solid var(--accent);border-radius:12px;padding:20px 24px;margin:20px 0;font-size:15.5px}
+  .call.warn{border-left-color:var(--pr)}
+  .call .ct{font-family:var(--fd);font-weight:600;text-transform:uppercase;letter-spacing:.06em;
+    font-size:14px;color:var(--accent);margin-bottom:8px}
+  .call.warn .ct{color:var(--pr)}
+  .call p{margin-bottom:8px}.call p:last-child{margin-bottom:0}
+  .call ul{margin:6px 0 0;padding-left:20px}.call li{margin-bottom:7px;font-size:14.5px}
+
+  /* SESSION CARDS */
+  .ses-card{background:var(--bg2);border:1px solid var(--line);border-radius:14px;
+    overflow:hidden;margin-bottom:22px}
+  .ses-hd{padding:18px 24px;border-left:5px solid var(--accent);display:flex;
+    justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px;background:#191920}
+  .ses-hd .dlabel{font-family:var(--fd);font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+    font-size:12px;color:var(--accent)}
+  .ses-hd .ttl{font-family:var(--fd);font-weight:700;text-transform:uppercase;font-size:24px;line-height:1;margin-top:3px}
+  .ses-hd .meta{font-size:13px;color:var(--muted);text-align:right}
+  .c-pull .ses-hd{border-left-color:var(--pull)} .c-pull .dlabel{color:var(--pull)}
+  .c-push .ses-hd{border-left-color:var(--push)} .c-push .dlabel{color:var(--push)}
+  .c-legs .ses-hd{border-left-color:var(--legs)} .c-legs .dlabel{color:var(--legs)}
+  .c-vol  .ses-hd{border-left-color:var(--vol)}  .c-vol .dlabel{color:var(--vol)}
+  .c-hiit .ses-hd{border-left-color:var(--hiit)} .c-hiit .dlabel{color:var(--hiit)}
+  .warmup{padding:13px 24px;font-size:13.5px;color:var(--muted);border-bottom:1px solid var(--line);background:#14141a}
+  .warmup b{color:var(--text);font-weight:600}
+  .finisher{padding:13px 24px;font-size:13.5px;color:var(--muted);border-top:1px solid var(--line);background:#15140d}
+  .finisher b{color:var(--accent);font-weight:600}
+
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  .tscroll{overflow-x:auto}
+  thead th{font-family:var(--fd);font-weight:500;text-transform:uppercase;letter-spacing:.07em;
+    font-size:11.5px;color:var(--muted);text-align:left;padding:11px 16px;border-bottom:1px solid var(--line);white-space:nowrap}
+  tbody td{padding:12px 16px;border-bottom:1px solid #232330;vertical-align:top}
+  tbody tr:last-child td{border-bottom:none}
+  td.num{color:var(--muted2);font-family:var(--fd);font-weight:600;width:34px}
+  td.ex{font-weight:600;color:#fff;min-width:150px}
+  td.sr{font-family:var(--fd);font-weight:600;white-space:nowrap;color:var(--text)}
+  td.rest-c{color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+  td.note-c{color:var(--muted);font-size:13.5px}
+  tr.king td.ex::before{content:"★ ";color:var(--accent)}
+  tr.king{background:#1c1c24}
+
+  /* PROGRESSION CALENDAR */
+  .cal{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:8px}
+  .calc{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+  .calc .wks{font-family:var(--fd);font-weight:700;font-size:18px;color:var(--accent)}
+  .calc .ph{font-size:13.5px;color:var(--muted);margin-top:6px}
+  .calc.deload{border-color:#3a3a46;background:#13131a}
+  .calc.deload .wks{color:var(--pull)}
+  .calc.test{border-color:var(--accent);background:#1d1810}
+  .calc.test .wks{color:var(--pr)}
+
+  /* MACROS */
+  .macro2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0 4px}
+  .mcard{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .mcard.train{border-top:3px solid var(--accent)}
+  .mcard.rest{border-top:3px solid var(--pull)}
+  .mcard .mtag{font-family:var(--fd);font-weight:600;text-transform:uppercase;letter-spacing:.05em;
+    font-size:13px;color:var(--muted)}
+  .mcard.train .mtag{color:var(--accent)} .mcard.rest .mtag{color:var(--pull)}
+  .mcard .kcal{font-family:var(--fd);font-weight:700;font-size:40px;line-height:1;margin:6px 0 14px}
+  .mcard .kcal span{font-size:16px;color:var(--muted);font-weight:400}
+  .mrow{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #232330;font-size:15px}
+  .mrow:last-child{border-bottom:none}
+  .mrow .ml{color:var(--muted)} .mrow .mv{font-family:var(--fd);font-weight:600;font-size:17px}
+  .mv.p{color:#ff7a6b}.mv.c{color:#5db4ff}.mv.f{color:#ffd166}
+
+  .foodgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
+  .fcol{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .fcol h5{font-family:var(--fd);font-weight:600;text-transform:uppercase;letter-spacing:.05em;
+    font-size:14px;margin-bottom:10px;color:var(--accent)}
+  .fcol ul{list-style:none}
+  .fcol li{font-size:13.5px;color:var(--text);padding:5px 0;border-bottom:1px solid #20202a}
+  .fcol li:last-child{border-bottom:none}
+  .fcol li span{color:var(--muted);float:right;font-variant-numeric:tabular-nums}
+
+  /* DISCIPLINE / MIN VIABLE */
+  .rules{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:8px 0}
+  .rule{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:flex;gap:14px}
+  .rule .rn{font-family:var(--fd);font-weight:700;font-size:30px;color:var(--accent);line-height:.9;flex:none}
+  .rule h4{font-family:var(--fd);font-weight:600;text-transform:uppercase;letter-spacing:.03em;font-size:15px;margin-bottom:4px}
+  .rule p{font-size:13.8px;color:var(--muted);margin:0}
+  .mvbox{background:#16161c;border:1px dashed var(--accent);border-radius:12px;padding:20px 24px;margin-top:18px}
+  .mvbox .mvt{font-family:var(--fd);font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--accent);font-size:15px;margin-bottom:12px}
+  .mvlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+  .mv-item{font-size:14px}.mv-item b{font-family:var(--fd);text-transform:uppercase;letter-spacing:.04em;color:var(--text);font-weight:600}
+
+  /* OBJECTIVES */
+  .objgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .obj{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .obj.near{border-top:3px solid var(--legs)}
+  .obj.long{border-top:3px solid var(--pr)}
+  .obj h4{font-family:var(--fd);font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-size:16px;margin-bottom:4px}
+  .obj .hh{font-size:13px;color:var(--muted);margin-bottom:14px}
+  .obj.near h4{color:var(--legs)} .obj.long h4{color:var(--pr)}
+  .obj ul{list-style:none}
+  .obj li{padding:8px 0;border-bottom:1px solid #232330;font-size:15px;font-weight:500}
+  .obj li:last-child{border-bottom:none}
+  .obj li::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;
+    background:var(--legs);margin-right:10px;vertical-align:middle}
+  .obj.long li::before{background:var(--pr)}
+
+  /* INDICATORS */
+  .ind{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
+  .indc{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:20px;text-align:center}
+  .indc .in{font-family:var(--fd);font-weight:700;font-size:34px;color:var(--accent)}
+  .indc h4{font-family:var(--fd);font-weight:600;text-transform:uppercase;font-size:14px;letter-spacing:.03em;margin:6px 0 6px}
+  .indc p{font-size:13px;color:var(--muted);margin:0}
+
+  footer{padding:48px 0 70px;border-top:1px solid var(--line);text-align:center}
+  footer .fq{font-family:var(--fd);font-weight:600;text-transform:uppercase;letter-spacing:.04em;
+    font-size:clamp(18px,3vw,26px);color:var(--accent);max-width:24ch;margin:0 auto 14px;line-height:1.15}
+  footer p{color:var(--muted);font-size:14px}
+
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+
+  @media (max-width:680px){
+    .why,.macro2,.rules,.objgrid{grid-template-columns:1fr}
+    .foodgrid,.ind{grid-template-columns:1fr}
+    .wkrow{grid-template-columns:96px 1fr;}
+    .wkrow .dur{grid-column:1/-1;text-align:left;margin-top:-6px}
+  }
+  @media print{
+    body{background:#fff;color:#111;font-size:12px}
+    body::before,.hero::after{display:none}
+    .stat,.whycard,.wkrow,.call,.ses-card,.calc,.mcard,.fcol,.rule,.mvbox,.obj,.indc{
+      background:#fff!important;border-color:#ccc!important}
+    .ses-hd,.warmup,tr.king{background:#f4f4f4!important}
+    h1 .blk,strong,b,td.ex,.stit{color:#111!important}
+    section{break-inside:avoid}
+    .ses-card,.calc,.obj{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Programme Street Lifting · 15 juin → 30 août 2026 · 76 jours</div>
+    <h1><span class="blk">Sec, musclé,</span><span class="acc">veineux.</span></h1>
+    <p class="lede">Une seule règle gouverne tout : <b>la régularité bat l'intensité.</b> Un plan suivi à 85 % pendant 11 semaines écrase un plan parfait abandonné en 3. Ce document est volontairement clair, dense et tenable — pas un monstre de plus.</p>
+    <div class="stats">
+      <div class="stat"><div class="v acc">65,8 kg</div><div class="l">1m69 · IMC 23</div></div>
+      <div class="stat"><div class="v">5 + 2</div><div class="l">Jours / repos</div></div>
+      <div class="stat"><div class="v acc">76 jours</div><div class="l">15 juin → 30 août</div></div>
+      <div class="stat"><div class="v">~2 400</div><div class="l">Kcal moyen · recomp</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- 0 — WHY -->
+<section>
+  <div class="wrap">
+    <div class="shead"><div class="snum">00</div><div><div class="stit">Pourquoi ce plan tient</div><div class="ssub">Les 4 erreurs de tes anciens programmes — corrigées</div></div></div>
+    <div class="why">
+      <div class="whycard"><h4>Fini le maximalisme</h4><p>Avant : 5-6 séances de 1h40 <b>+</b> HIIT week-end (jusqu'à 2h30) <b>+</b> mobilité « jamais sautée ». 10h+/semaine. Ici : <b>5 jours, ~55-60 min, 2 vrais repos.</b></p></div>
+      <div class="whycard"><h4>Une priorité, pas dix</h4><p>Avant : force max <b>+</b> sèche <b>+</b> Hyrox <b>+</b> hypertrophie en même temps. Physiologiquement incompatible. Ici : <b>construire force et muscle.</b> Le HIIT du samedi reste un complément, pas un 2e programme.</p></div>
+      <div class="whycard"><h4>Des objectifs honnêtes</h4><p>Avant : « dips +80 kg le 21 juin » — irréaliste, donc échec à chaque checkpoint, donc abandon. Ici : <b>planchers réalistes</b> ancrés sur tes vrais tests + bonus « stretch » sans pression (voir §07).</p></div>
+      <div class="whycard"><h4>Une seule ligne rouge</h4><p>Avant : 10 règles « non négociables » → une entorse et tout s'effondre. Ici : <b>jamais deux séances ratées d'affilée.</b> Le reste a de la marge intégrée.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 1 — WEEK -->
+<section>
+  <div class="wrap">
+    <div class="shead"><div class="snum">01</div><div><div class="stit">La semaine type</div><div class="ssub">5 jours d'entraînement · mercredi & dimanche en repos</div></div></div>
+    <div class="wkgrid">
+      <div class="wkrow wk-pull"><div class="day">Lundi</div><div class="ses">Tirage lourd + Muscle-up<small>Salle · force traction</small></div><div class="dur">~60 min</div></div>
+      <div class="wkrow wk-push"><div class="day">Mardi</div><div class="ses">Poussée lourde<small>Salle · force dips</small></div><div class="dur">~55 min</div></div>
+      <div class="wkrow rest"><div class="day">Mercredi</div><div class="ses">Repos<small>Marche / étirements libres</small></div><div class="dur">—</div></div>
+      <div class="wkrow wk-legs"><div class="day">Jeudi</div><div class="ses">Jambes — squat + soulevé<small>Salle · force basse</small></div><div class="dur">~55 min</div></div>
+      <div class="wkrow wk-vol"><div class="day">Vendredi</div><div class="ses">Haut du corps volume<small>Salle · hypertrophie + skill MU</small></div><div class="dur">~55 min</div></div>
+      <div class="wkrow wk-hiit"><div class="day">Samedi</div><div class="ses">HIIT — ton programme<small>Parc / extérieur · conditioning</small></div><div class="dur">~55-60 min</div></div>
+      <div class="wkrow rest"><div class="day">Dimanche</div><div class="ses">Repos complet<small>Récupération totale</small></div><div class="dur">—</div></div>
+    </div>
+    <div class="call">
+      <div class="ct">Lecture de la semaine</div>
+      <p>Tu as 6 jours disponibles : on en utilise 5 pour s'entraîner et on garde le <b>mercredi en plein milieu</b> pour récupérer. C'est ça qui permet à ta force <b>et</b> à ton HIIT de coexister sans te cramer — surtout avec une épaule à surveiller. Garde-le sur les 4 premières semaines minimum. Un mercredi où tu veux bouger : marche ou mobilité légère, jamais une séance dure.</p>
+      <p><b>Ton HIIT du samedi reste le tien.</b> Garde-le dans une fourchette de ~55-60 min (formats « Moteur Diesel » / « Sèche Flow »), pas les versions de 2h+. Une fois par semaine en conditioning, il complète parfaitement la force.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2 — SESSIONS -->
+<section>
+  <div class="wrap">
+    <div class="shead"><div class="snum">02</div><div><div class="stit">Les séances en détail</div><div class="ssub">Échauffement type avant chaque séance : 3 min cardio léger + rotations d'épaules + band pull-aparts ×15 + montée progressive sur le 1<sup>er</sup> exercice</div></div></div>
+
+    <div class="call">
+      <div class="ct">Comment lire les tempos</div>
+      <p>Les chiffres (ex. « 2-1-1 ») = la vitesse de chaque phase d'une répétition, en secondes : <b>1er = descente</b> (la négative, contrôlée) · <b>2e = pause</b> (en bas, position étirée) · <b>3e = montée</b> (l'effort). Un <b>0</b> = pas de pause, tu enchaînes.</p>
+      <p style="margin-bottom:0">Exemples : <b>Squat 2-1-1</b> → descends en 2 s, pause 1 s en bas, remonte en 1 s. <b>Traction 2-0-1</b> → tu te tires en 1 s, pas de pause, tu <b>redescends en 2 s</b> (négative lente). Les mots : <b>« explosif »</b> = monte le plus vite possible · <b>« contrôlé »</b> = ~2 s dans chaque sens, sans à-coup · <b>« tension »</b> = gainage, tu tiens la position. <b>Réflexe clé : descends toujours plus lentement que tu montes.</b></p>
+    </div>
+
+    <!-- LUNDI -->
+    <div class="ses-card c-pull">
+      <div class="ses-hd"><div><div class="dlabel">Lundi · Tirage</div><div class="ttl">Tirage + Muscle-up</div></div><div class="meta">Salle · ~60 min<br>Force traction max</div></div>
+      <div class="warmup"><b>Échauffement spécifique :</b> bandes épaules + dead hang 20 s + scapula pulls ×10 + 3-4 tractions corps lentes + 1-2 muscle-ups de mise en route avant les séries de MU. Puis montée progressive sur la traction lestée avant ses séries.</div>
+      <div class="tscroll"><table>
+        <thead><tr><th>#</th><th>Exercice</th><th>Séries × Reps</th><th>Tempo</th><th>Repos</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr class="king"><td class="num">1</td><td class="ex">Muscle-up</td><td class="sr">4 × 2-3</td><td class="rest-c">explosif</td><td class="rest-c">2-3 min</td><td class="note-c"><b>En premier, bien échauffé</b> : c'est le mouvement le plus technique et explosif, il doit être frais. Lesté si propre. Le combo qui le fait progresser : <b>tractions explosives poitrine-barre</b> + négatives lentes 4 s + transitions élastique.</td></tr>
+          <tr class="king"><td class="num">2</td><td class="ex">Traction lestée</td><td class="sr">4 × 4</td><td class="rest-c">2-0-1</td><td class="rest-c">3 min</td><td class="note-c">Mouvement roi de force, juste après le MU. RIR 1-2. Poitrine vers la barre, amplitude complète.</td></tr>
+          <tr><td class="num">3</td><td class="ex">Chin-up lesté</td><td class="sr">3 × 5</td><td class="rest-c">2-1-1</td><td class="rest-c">2 min</td><td class="note-c">Prise supination. Biceps + dos.</td></tr>
+          <tr><td class="num">4</td><td class="ex">Rowing barre ou haltère</td><td class="sr">3 × 8</td><td class="rest-c">2-1-2</td><td class="rest-c">90 s</td><td class="note-c">Dos épais, omoplates serrées.</td></tr>
+          <tr><td class="num">5</td><td class="ex">Curl barre</td><td class="sr">3 × 10</td><td class="rest-c">contrôlé</td><td class="rest-c">60 s</td><td class="note-c">Supination complète, esthétique bras.</td></tr>
+        </tbody>
+      </table></div>
+      <div class="finisher">🔥 <b>Finisher · grip + biceps</b> (~6 min, à zapper les jours sans jus) : Curl « 21 » = 7 reps moitié basse + 7 reps moitié haute + 7 reps complètes (charge <b>légère</b> : barre à vide ou haltères 5-8 kg), 2 séries. Puis dead hang (suspension à la barre le plus longtemps possible), 2 séries. Bras veineux + grip qui transfère aux tractions et au Hyrox.</div>
+    </div>
+
+    <!-- MARDI -->
+    <div class="ses-card c-push">
+      <div class="ses-hd"><div><div class="dlabel">Mardi · Poussée</div><div class="ttl">Poussée lourde</div></div><div class="meta">Salle · ~55 min<br>Force dips max</div></div>
+      <div class="warmup"><b>Échauffement spécifique :</b> bandes épaules d'abord → <b>pompage tendineux</b> (10-15 dips au corps lents, amplitude contrôlée, pour gorger le tendon) → pompes lentes ×10 → montée progressive sur dips lestés avant les séries.</div>
+      <div class="tscroll"><table>
+        <thead><tr><th>#</th><th>Exercice</th><th>Séries × Reps</th><th>Tempo</th><th>Repos</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr class="king"><td class="num">1</td><td class="ex">Dips lestés</td><td class="sr">4 × 5</td><td class="rest-c">2-1-1</td><td class="rest-c">3 min</td><td class="note-c"><b>Forme parfaite + zéro douleur</b> avant la charge (RPE 7-8). Légère inclinaison avant, amplitude complète indolore. C'est l'épaule qui dicte, pas l'ego.</td></tr>
+          <tr><td class="num">2</td><td class="ex">Développé incliné haltères</td><td class="sr">4 × 8</td><td class="rest-c">2-0-1</td><td class="rest-c">2 min</td><td class="note-c">Pec haut. Plus doux pour l'épaule qu'un développé barre.</td></tr>
+          <tr><td class="num">3</td><td class="ex">Dips poids de corps (pump)</td><td class="sr">3 × 10-12</td><td class="rest-c">contrôlé</td><td class="rest-c">90 s</td><td class="note-c">Étirement pec en bas, volume sans charge. <b>Épaule sensible ? Remplace par développé machine ou pompes</b> — le mardi cumule déjà beaucoup de dips.</td></tr>
+          <tr><td class="num">4</td><td class="ex">Extensions triceps corde</td><td class="sr">3 × 12</td><td class="rest-c">2-1-1</td><td class="rest-c">60 s</td><td class="note-c">Coudes fixes, contraction forte en bas.</td></tr>
+          <tr><td class="num">5</td><td class="ex">Face pulls</td><td class="sr">3 × 15</td><td class="rest-c">1-1-1</td><td class="rest-c">45 s</td><td class="note-c"><b>Santé épaule — non optionnel.</b> Rotateurs externes.</td></tr>
+        </tbody>
+      </table></div>
+      <div class="finisher">🔥 <b>Finisher · rameur</b> (~8 min) : 6 × (30 s fort / 30 s souple). Conditioning sans charger l'épaule, dos frais après la poussée = bonne perf. Premières fondations cardio pour le Hyrox.</div>
+    </div>
+
+    <!-- JEUDI -->
+    <div class="ses-card c-legs">
+      <div class="ses-hd"><div><div class="dlabel">Jeudi · Jambes</div><div class="ttl">Squat + Soulevé</div></div><div class="meta">Salle · ~55 min<br>Force basse</div></div>
+      <div class="warmup"><b>Échauffement spécifique :</b> mobilité hanches/chevilles + squats BW ×10 + montée progressive squat (barre → 40 → 60 kg).</div>
+      <div class="tscroll"><table>
+        <thead><tr><th>#</th><th>Exercice</th><th>Séries × Reps</th><th>Tempo</th><th>Repos</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr class="king"><td class="num">1</td><td class="ex">Back Squat</td><td class="sr">5 × 3</td><td class="rest-c">2-1-1</td><td class="rest-c">3 min</td><td class="note-c">Profondeur complète. +2,5 kg quand 5×3 propres.</td></tr>
+          <tr class="king"><td class="num">2</td><td class="ex">Soulevé de terre</td><td class="sr">3 × 4</td><td class="rest-c">contrôlé</td><td class="rest-c">3 min</td><td class="note-c">Dos neutre, jamais arrondi. +2,5-5 kg quand propre.</td></tr>
+          <tr><td class="num">3</td><td class="ex">Soulevé roumain (RDL)</td><td class="sr">3 × 10</td><td class="rest-c">3-0-1</td><td class="rest-c">2 min</td><td class="note-c">Ischios. Descente lente, étirement.</td></tr>
+          <tr><td class="num">4</td><td class="ex">Fentes marchées ou presse</td><td class="sr">3 × 12</td><td class="rest-c">contrôlé</td><td class="rest-c">90 s</td><td class="note-c">Volume quadriceps.</td></tr>
+          <tr><td class="num">5</td><td class="ex">Planche ou hollow hold</td><td class="sr">3 × 40 s</td><td class="rest-c">tension</td><td class="rest-c">60 s</td><td class="note-c">Core. Gainage actif = transfert MU.</td></tr>
+        </tbody>
+      </table></div>
+      <div class="finisher">🔥 <b>Finisher · fentes + mollets</b> (~7 min) : Fentes marchées 3 × 20 pas (10/jambe, poids du corps ou haltères légers) + Mollets debout 3 × 20. Jambes/fessiers athlétiques + mollets (esthétique & base course pour le Hyrox). (Si tu fais déjà les fentes en exo 4, mets la presse là-haut.)</div>
+    </div>
+
+    <!-- VENDREDI -->
+    <div class="ses-card c-vol">
+      <div class="ses-hd"><div><div class="dlabel">Vendredi · Volume</div><div class="ttl">Haut du corps volume</div></div><div class="meta">Salle · ~55 min<br>Hypertrophie + skill</div></div>
+      <div class="warmup"><b>Échauffement spécifique :</b> cardio léger 3 min + bandes épaules + 5 tractions corps.</div>
+      <div class="tscroll"><table>
+        <thead><tr><th>#</th><th>Exercice</th><th>Séries × Reps</th><th>Tempo</th><th>Repos</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td class="num">1</td><td class="ex">Traction (corps ou +5/10 kg)</td><td class="sr">4 × 6-8</td><td class="rest-c">3-0-1</td><td class="rest-c">2 min</td><td class="note-c">Volume dos, tempo lent, contrôle total.</td></tr>
+          <tr><td class="num">2</td><td class="ex">Muscle-up technique (sans lest)</td><td class="sr">4 × 3</td><td class="rest-c">propre</td><td class="rest-c">90 s</td><td class="note-c">Travail du geste, fluidité. PAS de fatigue.</td></tr>
+          <tr><td class="num">3</td><td class="ex">Dips poids de corps</td><td class="sr">4 × 10</td><td class="rest-c">contrôlé</td><td class="rest-c">90 s</td><td class="note-c">Volume push.</td></tr>
+          <tr><td class="num">4</td><td class="ex">Élévations latérales</td><td class="sr">3 × 15</td><td class="rest-c">1-0-1</td><td class="rest-c">45 s</td><td class="note-c">Épaules larges — silhouette en V.</td></tr>
+          <tr><td class="num">5</td><td class="ex">Superset curl + extension triceps</td><td class="sr">3 × 12 / 12</td><td class="rest-c">contrôlé</td><td class="rest-c">60 s</td><td class="note-c">Bras (esthétique).</td></tr>
+          <tr><td class="num">6</td><td class="ex">Toes-to-bar / relevés de jambes</td><td class="sr">3 × 10</td><td class="rest-c">contrôlé</td><td class="rest-c">60 s</td><td class="note-c">Abdos + transfert MU.</td></tr>
+        </tbody>
+      </table></div>
+      <div class="finisher">🔥 <b>Finisher · farmer carry</b> (~6 min) : 4 × 30-40 m lourds. Grip, gainage, trapèzes, posture — et c'est une épreuve Hyrox. Zéro charge sur l'épaule, parfait avant le HIIT du samedi.</div>
+    </div>
+
+    <!-- SAMEDI -->
+    <div class="ses-card c-hiit">
+      <div class="ses-hd"><div><div class="dlabel">Samedi · HIIT</div><div class="ttl">Conditioning — ton programme</div></div><div class="meta">Parc / extérieur · ~55-60 min</div></div>
+      <div class="warmup"><b>À garder en tête :</b> c'est TON HIIT, on n'y touche pas. Trois ajustements seulement pour qu'il coexiste avec la force.</div>
+      <div class="call" style="margin:18px 24px">
+        <ul style="padding-left:18px;margin:0">
+          <li>Échauffe les épaules avant (bandes) — tu sors d'une semaine de tirage/poussée.</li>
+          <li>Si l'épaule tire : remplace les HSPU par des pike push-ups ou des pompes.</li>
+          <li>Reste sur les formats ~55-60 min. Une séance, pas un 2<sup>e</sup> programme à plein régime.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 3 — PROGRESSION -->
+<section>
+  <div class="wrap">
+    <div class="shead"><div class="snum">03</div><div><div class="stit">La progression</div><div class="ssub">Autorégulation au RPE façon SSBS · charges ancrées sur tes tests du 4-5 juin · du 15 juin au 30 août</div></div></div>
+    <div class="call">
+      <div class="ct">La méthode SSBS — autorégulation au RPE</div>
+      <p>Pas de table de charges figée à suivre aveuglément. Pour chaque mouvement principal tu vises un <b>RPE cible</b> (la difficulté ressentie) sur tes séries de travail. La règle est simple :</p>
+      <p style="margin-bottom:0"><b>Tu finis tes séries au RPE cible ou en dessous → tu montes la charge la séance suivante.</b> Le RPE dépasse la cible, ou tu rates des reps → tu gardes la charge et tu retentes. C'est précis <b>et</b> auto-correcteur : impossible de te coller une charge irréaliste, c'est ton corps qui valide chaque montée. C'est exactement la logique de tes séances SSBS.</p>
+    </div>
+    <h3 style="font-family:var(--fd);text-transform:uppercase;letter-spacing:.04em;font-size:18px;margin:24px 0 12px;color:var(--accent)">Tes charges de départ — ancrées sur tes tests du 4-5 juin</h3>
+    <div class="tscroll"><table>
+      <thead><tr><th>Mouvement</th><th>Ton test</th><th>Départ S1</th><th>Schéma @ RPE</th><th>Si RPE ok</th><th>Cible ~S11</th></tr></thead>
+      <tbody>
+        <tr><td class="ex">Traction lestée</td><td class="note-c">+30 clean</td><td class="sr">+17,5 kg</td><td class="sr">4×4 @ 8</td><td class="note-c">+1,25 kg</td><td class="note-c">+27-30 kg de travail</td></tr>
+        <tr><td class="ex">Dips lestés ⚠️</td><td class="note-c">+35×2 (épaule)</td><td class="sr">+15 kg strict</td><td class="sr">4×5 @ 7-8</td><td class="note-c">+1,25 kg <b>si 0 douleur</b></td><td class="note-c">propre &amp; sans douleur</td></tr>
+        <tr><td class="ex">Chin-up lesté</td><td class="note-c">+25 clean</td><td class="sr">+12,5 kg</td><td class="sr">3×5 @ 8</td><td class="note-c">+1,25 kg</td><td class="note-c">+20-22 kg de travail</td></tr>
+        <tr><td class="ex">Squat</td><td class="note-c">110×2</td><td class="sr">100 kg</td><td class="sr">5×3 @ 8</td><td class="note-c">+2,5 kg</td><td class="note-c">110-115 kg · 1RM ~125-130</td></tr>
+        <tr><td class="ex">Soulevé de terre</td><td class="note-c">120×1</td><td class="sr">100 kg</td><td class="sr">3×4 @ 8</td><td class="note-c">+2,5-5 kg</td><td class="note-c">115-120 kg · 1RM ~135</td></tr>
+        <tr><td class="ex">Muscle-up</td><td class="note-c">2 au PdC</td><td class="sr">PdC + technique</td><td class="sr">4×3</td><td class="note-c">+2,5 kg / 2 reps propres</td><td class="note-c">+5 kg × 2</td></tr>
+      </tbody>
+    </table></div>
+    <p style="font-size:14px;color:var(--muted);margin-top:8px"><b>RPE 8</b> = il te reste ~2 reps en réserve en fin de série. Tu démarres volontairement « facile » : c'est ce qui te laisse 11 semaines de marge pour monter. Squat et soulevé sont tes points forts et le deadlift a le plus de marge (il est bas vs ton squat). Les dips passent en mode <b>forme parfaite + zéro douleur</b> — on construit la force propre, le chiffre suivra quand l'épaule sera ok.</p>
+    <div class="call">
+      <div class="ct">Deux détails qui font tourner la machine</div>
+      <p style="margin-bottom:0"><b>Accessoires</b> (rowing, développé, élévations, dips au corps, curls…) : même logique, tu ajoutes d'abord des reps dans la fourchette, puis de la charge quand tu plafonnes en haut. <b>Et note toujours charge ET RPE</b> (ex. « traction +17,5 × 4 @ RPE 7 ») — c'est le RPE noté qui te dit quand monter. Sans ça, l'autorégulation ne marche pas.</p>
+    </div>
+    <h3 style="font-family:var(--fd);text-transform:uppercase;letter-spacing:.04em;font-size:18px;margin:24px 0 12px;color:var(--muted)">L'arc des 11 semaines</h3>
+    <div class="cal">
+      <div class="calc"><div class="wks">S1 – S3</div><div class="ph">Accumulation. Montée linéaire, on ancre la régularité.</div></div>
+      <div class="calc"><div class="wks">S4</div><div class="ph">Pic du 1<sup>er</sup> bloc, dernières charges hautes.</div></div>
+      <div class="calc deload"><div class="wks">S5 · Décharge</div><div class="ph">Volume −40 % (2-3 séries), charges légères. Tu récupères.</div></div>
+      <div class="calc"><div class="wks">S6 – S8</div><div class="ph">Accumulation 2. On dépasse les charges de S4.</div></div>
+      <div class="calc deload"><div class="wks">S9 · Décharge</div><div class="ph">Légère, optionnelle si grosse fatigue.</div></div>
+      <div class="calc"><div class="wks">S10</div><div class="ph">Intensification. Charges de travail maximales.</div></div>
+      <div class="calc test"><div class="wks">S11 · Tests</div><div class="ph">Tests : traction, chin-up, squat, soulevé (dips selon l'épaule). Photo + bilan.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 — NUTRITION -->
+<section>
+  <div class="wrap">
+    <div class="shead"><div class="snum">04</div><div><div class="stit">Nutrition — calibrée pour rester sec</div><div class="ssub">Objectif révisé : sec, musclé et veineux toute la journée (1m69 · 65,8 kg · IMC 23). On vise donc la recomposition à maintenance — surtout pas un surplus. Voici pourquoi et comment.</div></div></div>
+
+    <div class="call warn">
+      <div class="ct">Lis ça avant tout</div>
+      <p style="margin-bottom:0">« Musclé <b>et</b> sec <b>et</b> veineux toute la journée » à 65,8 kg, ça se joue sur <b>une seule chose : ton taux de gras.</b> Si tu n'es veineux que le matin, c'est que tes veines ne ressortent que vidé/déshydraté ; nourri, l'eau lisse tout. Pour être veineux <b>en permanence</b>, il faut <b>descendre la masse grasse</b> (viser ~10-12 %), pas manger plus. Donc on ne bulk pas : on mange <b>autour de ta maintenance</b>, protéines hautes — tu perds lentement du gras et construis du muscle en même temps. C'est la recomposition.</p>
+    </div>
+
+    <p class="lead">On garde la distinction jours d'entraînement / jours de repos (les glucides là où tu en as besoin), mais le total tourne <b>autour de ta maintenance, pas au-dessus</b>. C'est ce qui te fait perdre lentement du gras et ressortir les veines, tout en gardant le muscle grâce à des protéines hautes.</p>
+
+    <div class="macro2">
+      <div class="mcard train">
+        <div class="mtag">Jours d'entraînement · Lun Mar Jeu Ven Sam</div>
+        <div class="kcal">2 500 <span>kcal</span></div>
+        <div class="mrow"><span class="ml">Protéines</span><span class="mv p">160 g</span></div>
+        <div class="mrow"><span class="ml">Glucides</span><span class="mv c">320 g</span></div>
+        <div class="mrow"><span class="ml">Lipides</span><span class="mv f">65 g</span></div>
+      </div>
+      <div class="mcard rest">
+        <div class="mtag">Jours de repos · Mer Dim</div>
+        <div class="kcal">2 100 <span>kcal</span></div>
+        <div class="mrow"><span class="ml">Protéines</span><span class="mv p">160 g</span></div>
+        <div class="mrow"><span class="ml">Glucides</span><span class="mv c">230 g</span></div>
+        <div class="mrow"><span class="ml">Lipides</span><span class="mv f">60 g</span></div>
+      </div>
+    </div>
+    <p style="font-size:14px;color:var(--muted);margin-top:8px">Moyenne ~2 400 kcal/jour ≈ ta maintenance (~37 kcal/kg) · protéines ~2,4 g/kg, volontairement hautes pour <b>garder/construire du muscle pendant que tu perds du gras</b> · lipides ≥ 60 g = plancher hormonal. Ne descends pas sous ~2 000 kcal : tu es déjà léger.</p>
+
+    <h3 style="font-family:var(--fd);text-transform:uppercase;letter-spacing:.04em;font-size:18px;margin:30px 0 10px;color:var(--muted)">Timing autour de la séance</h3>
+    <div class="call">
+      <ul style="padding-left:20px;margin:0">
+        <li><b>60-90 min avant</b> — glucides + protéines modérées : flocons + skyr, ou riz + œufs. Léger si séance matinale.</li>
+        <li><b>Juste avant</b> — banane + café (200-300 mg caféine si tu en prends). Pas de graisses lourdes (digestion).</li>
+        <li><b>Dans l'heure après</b> — 30-40 g de protéines + glucides : whey + fruit, ou un vrai repas viande/riz.</li>
+        <li><b>Sur la journée</b> — répartis les protéines en 4 prises de ~30-40 g, c'est l'optimum pour la synthèse.</li>
+      </ul>
+    </div>
+
+    <h3 style="font-family:var(--fd);text-transform:uppercase;letter-spacing:.04em;font-size:18px;margin:30px 0 10px;color:var(--muted)">Journée type — jour d'entraînement (~2 500 kcal)</h3>
+    <div class="tscroll"><table>
+      <thead><tr><th>Moment</th><th>Repas</th><th>≈ Protéines</th></tr></thead>
+      <tbody>
+        <tr><td class="ex">Petit-déjeuner</td><td class="note-c" style="color:var(--text)">60 g flocons d'avoine + 250 ml lait + 1 scoop whey (30 g) + 1 banane</td><td class="sr">~40 g</td></tr>
+        <tr><td class="ex">Pré-séance</td><td class="note-c" style="color:var(--text)">Café (+ 1 banane si besoin) — pas de graisses lourdes</td><td class="sr">—</td></tr>
+        <tr><td class="ex">Déjeuner (souvent post-séance)</td><td class="note-c" style="color:var(--text)">170 g poulet/viande + riz ou pâtes (portion normale) + légumes + filet d'huile d'olive</td><td class="sr">~50 g</td></tr>
+        <tr><td class="ex">Collation</td><td class="note-c" style="color:var(--text)">200 g skyr + 25 g amandes + 1 fruit</td><td class="sr">~25 g</td></tr>
+        <tr><td class="ex">Dîner</td><td class="note-c" style="color:var(--text)">180 g poisson/bœuf + patate douce ou riz + légumes à volonté</td><td class="sr">~40 g</td></tr>
+      </tbody>
+    </table></div>
+    <p style="font-size:14px;color:var(--muted);margin-top:8px"><b>Jour de repos :</b> même structure, retire ~90 g de glucides (moins de riz/flocons + pas de banane pré-séance) et un peu de gras → ~2 100 kcal. Pas besoin de tout repeser au gramme : ce template répété te met dans la bonne zone.</p>
+
+    <h3 style="font-family:var(--fd);text-transform:uppercase;letter-spacing:.04em;font-size:18px;margin:30px 0 10px;color:var(--muted)">Garde-manger — pour assembler tes repas</h3>
+    <div class="foodgrid">
+      <div class="fcol"><h5>Protéines</h5><ul>
+        <li>Poulet / dinde <span>~30 g / 150 g</span></li>
+        <li>Œufs <span>~6 g / œuf</span></li>
+        <li>Skyr / fromage blanc <span>~20 g / 200 g</span></li>
+        <li>Thon, saumon <span>~25 g / 100 g</span></li>
+        <li>Bœuf maigre <span>~30 g / 130 g</span></li>
+        <li>Whey <span>~24 g / scoop</span></li>
+      </ul></div>
+      <div class="fcol"><h5>Glucides</h5><ul>
+        <li>Riz / pâtes (cru) <span>~75 g / 100 g</span></li>
+        <li>Flocons d'avoine <span>~60 g / 100 g</span></li>
+        <li>Patate douce <span>~20 g / 100 g</span></li>
+        <li>Pain complet <span>~20 g / 2 tr.</span></li>
+        <li>Banane <span>~25 g / pièce</span></li>
+        <li>Fruits divers <span>15-25 g</span></li>
+      </ul></div>
+      <div class="fcol"><h5>Lipides</h5><ul>
+        <li>Huile d'olive <span>~14 g / c.à.s</span></li>
+        <li>Amandes / noix <span>~15 g / 30 g</span></li>
+        <li>Beurre de cacahuète <span>~16 g / c.à.s</span></li>
+        <li>Œufs entiers <span>~5 g / œuf</span></li>
+        <li>Saumon, avocat <span>variable</span></li>
+        <li>(viser ~60-70 g/jour) <span></span></li>
+      </ul></div>
+    </div>
+
+    <h3 style="font-family:var(--fd);text-transform:uppercase;letter-spacing:.04em;font-size:18px;margin:30px 0 10px;color:var(--muted)">La règle d'ajustement (sur la tendance de poids, pas jour le jour)</h3>
+    <div class="call">
+      <ul style="padding-left:20px;margin:0">
+        <li>Poids <b>~stable (±1 kg)</b> pendant que ton tour de taille baisse et que tes charges montent → la recomp marche, les veines sortiront progressivement.</li>
+        <li>Après 3-4 sem tu ne sèches pas assez vite et c'est ta priorité → <b>−150-200 kcal</b> (glucides) pour un léger déficit.</li>
+        <li>Tes charges baissent ou ton énergie s'effondre → tu as trop coupé, <b>+150 kcal</b>.</li>
+        <li><b>Jamais sous ~2 000 kcal :</b> tu es déjà léger, un gros déficit te rendrait « sec mais petit », pas « musclé et sec ».</li>
+      </ul>
+    </div>
+
+    <div class="call">
+      <div class="ct">Suppléments — l'essentiel, pas la pharmacie</div>
+      <p style="margin-bottom:0"><b>Créatine monohydrate 5 g/jour</b>, tous les jours, repos inclus — le seul vraiment incontournable pour la force. <b>Whey</b> : pratique pour atteindre tes protéines, pas obligatoire. <b>Caféine</b> pré-séance : optionnelle, max 400 mg/jour, jamais en fin de journée. Le reste de ta liste à 7 compléments n'apporte presque rien — économise ton argent.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5 — DISCIPLINE -->
+<section>
+  <div class="wrap">
+    <div class="shead"><div class="snum">05</div><div><div class="stit">Le système de discipline</div><div class="ssub">Ton vrai problème n'était pas la volonté — c'était un plan impossible. Voici la structure qui rend l'abandon difficile.</div></div></div>
+    <p><b>Organisation hebdomadaire (5 min, chaque dimanche) :</b> bloque tes 5 créneaux dans ton agenda comme des rendez-vous non déplaçables. C'est toute la planification dont tu as besoin.</p>
+    <div class="rules">
+      <div class="rule"><div class="rn">1</div><div><h4>La règle des 85 %</h4><p>Vise 85 % des séances faites, pas 100 %. Rater une séance n'est PAS un échec — c'est prévu dans le plan.</p></div></div>
+      <div class="rule"><div class="rn">2</div><div><h4>Jamais deux d'affilée</h4><p>Tu peux rater une séance. Tu ne rates <b>jamais</b> deux séances planifiées de suite. C'est la seule ligne rouge.</p></div></div>
+      <div class="rule"><div class="rn">3</div><div><h4>Show up &gt; performance</h4><p>Le jour J, l'objectif n'est pas un record, c'est d'y aller. Une séance moyenne faite vaut 100× une parfaite imaginée.</p></div></div>
+      <div class="rule"><div class="rn">4</div><div><h4>Un seul suivi</h4><p>Tu notes seulement tes charges sur les 5 mouvements rois. Pas de pesée quotidienne, pas d'app à vie, pas de 10 mesures bimensuelles.</p></div></div>
+    </div>
+    <div class="mvbox">
+      <div class="mvt">🔋 Séance « minimum viable » — jours sans motivation</div>
+      <p style="font-size:14.5px;color:var(--muted);margin-bottom:12px">Pas envie ? Tu n'annules pas. Tu fais la version 20 minutes : le mouvement principal, puis tu repars. 20 minutes battent zéro, à chaque fois.</p>
+      <div class="mvlist">
+        <div class="mv-item"><b>Lundi</b> → Traction lestée 4×4 + MU 3×3</div>
+        <div class="mv-item"><b>Mardi</b> → Dips lestés 4×4 + Face pulls 3×15</div>
+        <div class="mv-item"><b>Jeudi</b> → Squat 5×3</div>
+        <div class="mv-item"><b>Vendredi</b> → Tractions 4×8 + Dips 4×10</div>
+        <div class="mv-item"><b>Samedi</b> → version courte du HIIT (20 min)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 — OPTIMISATION -->
+<section>
+  <div class="wrap">
+    <div class="shead"><div class="snum">06</div><div><div class="stit">Optimisation & récupération</div></div></div>
+    <p class="lead"><b>Sommeil :</b> 7-9 h par nuit, horaires réguliers. C'est le levier n°1 de récupération et de force — plus important que n'importe quel supplément.</p>
+    <p><b>Signaux de fatigue à écouter :</b> force qui baisse 2 séances de suite, sommeil dégradé, motivation au sol, douleur articulaire. Réponse → avance ta décharge ou ajoute un jour de repos. Reculer d'un pas pour avancer de deux.</p>
+
+    <div class="call">
+      <div class="ct">Les petits leviers qui comptent (sans fatigue en plus)</div>
+      <ul style="padding-left:20px;margin:0">
+        <li><b>Pas quotidiens : vise 8-10 000/jour.</b> C'est ton meilleur outil de sèche pour le côté veineux — ça brûle des calories sans entamer ta récup, contrairement à plus de cardio. Le levier le plus sous-estimé.</li>
+        <li><b>Retour au calme ~5 min</b> en fin de séance : étirements épaules + hanches. Pas une séance mobilité de 30 min, juste de quoi récupérer et entretenir l'épaule.</li>
+        <li><b>Hydratation 2,5-3 L/jour.</b> Récupération, perf… et un muscle bien hydraté ressort mieux (pompe + veines).</li>
+        <li><b>Semaines de décharge (S5, S9) :</b> pas de finisher, HIIT du samedi en mode tranquille. La décharge sert à récupérer, pas à se prouver quelque chose.</li>
+        <li><b>Grip qui lâche avant le dos</b> sur le rowing ou les volumes ? Mets des sangles — ton dos doit être le facteur limitant, pas tes avant-bras.</li>
+      </ul>
+    </div>
+
+    <div class="call warn">
+      <div class="ct">Épaule — ta priorité n°1, confirmée par le test</div>
+      <p>Au test des dips, c'est ton épaule qui t'a arrêté (pas tes muscles) et ta forme s'est cassée sous la charge. C'est LE facteur limitant de ta poussée. On le gère sérieusement :</p>
+      <ul>
+        <li><b>Fais voir cette épaule par un kiné — c'est l'action n°1.</b> Une gêne qui revient et qui te plafonne sous charge mérite un vrai bilan avant de charger lourd 5 jours/semaine. Un rendez-vous peut t'éviter des mois d'arrêt — je ne peux pas l'examiner, quelqu'un qui le peut, oui.</li>
+        <li><b>Dips en mode forme + zéro douleur</b> (voir progression §03) : on construit propre et léger, le chiffre suivra. Pas de PR dips à l'arrache.</li>
+        <li>Les <b>face pulls (mardi), band pull-aparts et pompage tendineux</b> ne sont jamais optionnels — ils protègent et rééquilibrent toute ta poussée.</li>
+        <li><b>Toute douleur &gt; 3/10</b> sur dips, MU ou pressings → réduis charge/amplitude le jour même. Et sur l'enchaînement <b>vendredi → samedi</b> : allège les pressings du vendredi si ça tire, remplace les HSPU du HIIT par plus doux.</li>
+      </ul>
+    </div>
+
+    <h3 style="font-family:var(--fd);text-transform:uppercase;letter-spacing:.04em;font-size:18px;margin:28px 0 12px;color:var(--pr)">❌ Erreurs à éviter absolument (celles de tes anciens plans)</h3>
+    <div class="call warn">
+      <ul style="padding-left:20px;margin:0">
+        <li><b>Empiler trop de séances.</b> 5 jours tenus avec 2 vrais repos &gt; 7 jours abandonnés au bout d'un mois. Résiste à l'envie de remplir le mercredi.</li>
+        <li><b>Tout vouloir en même temps.</b> Force max + sèche agressive + gros cardio en parallèle se contredisent. Une priorité : construire. Le HIIT reste un complément d'une séance.</li>
+        <li><b>Des objectifs datés irréalistes.</b> « Dips +80 kg le 21 juin » garantit l'échec et le dégoût — c'est pour ça qu'on a transformé tes cibles en planchers réalistes + bonus « stretch ».</li>
+        <li><b>Des règles « non négociables » partout.</b> Plus tu en mets, plus une entorse fait tout s'effondrer. Ici : une seule ligne rouge.</li>
+        <li><b>Sur-tracker.</b> Pesée quotidienne + app calories + 10 mesures bimensuelles = une corvée de plus à abandonner.</li>
+      </ul>
+    </div>
+
+    <h3 style="font-family:var(--fd);text-transform:uppercase;letter-spacing:.04em;font-size:18px;margin:28px 0 12px;color:var(--muted)">📊 Indicateurs de progrès — seulement 3</h3>
+    <div class="ind">
+      <div class="indc"><div class="in">1</div><h4>Charges</h4><p>Tes mouvements rois montent sur 4-6 semaines. Le vrai juge de la progression.</p></div>
+      <div class="indc"><div class="in">2</div><h4>1 photo / mois</h4><p>Même lumière, même heure. Le miroir du physique, sans obsession quotidienne.</p></div>
+      <div class="indc"><div class="in">3</div><h4>Énergie</h4><p>Tu te sens en forme aux séances ? Le juge de la durabilité du plan.</p></div>
+    </div>
+    <p style="font-size:14px;color:var(--muted);margin-top:12px">Si ces 3 vont dans le bon sens, le plan marche. Inutile de mesurer autre chose.</p>
+  </div>
+</section>
+
+<!-- 7 — OBJECTIVES -->
+<section>
+  <div class="wrap">
+    <div class="shead"><div class="snum">07</div><div><div class="stit">Objectifs — recalés sur tes vrais chiffres</div><div class="ssub">Priorité n°1 : le physique sec/veineux/musclé. La force est un bonus — « +10 kg minimum » par mouvement, le reste en stretch. Hyrox ensuite.</div></div></div>
+    <div class="objgrid">
+      <div class="obj near"><h4>Plancher — très réaliste en 12 sem</h4><div class="hh">ce que tu vises sereinement, sans pression de date</div>
+        <ul>
+          <li>Squat : <b>déjà atteint</b> (110×2) → cap 120-125 <span style="color:var(--muted);font-weight:400;font-size:13px;float:right">✓</span></li>
+          <li>Soulevé 120 → <b>130-135 kg</b></li>
+          <li>Muscle-up → <b>+5 kg × 2</b></li>
+          <li>Chin-up +25 → <b>+25 × 2</b> <span style="color:var(--muted);font-weight:400;font-size:13px;float:right">quasi déjà là</span></li>
+          <li>Traction +30 → <b>+40 clean</b></li>
+          <li>Dips → <b>propres &amp; sans douleur</b></li>
+        </ul></div>
+      <div class="obj long"><h4>Stretch — si ça vient, tant mieux</h4><div class="hh">aucune pression dessus</div>
+        <ul>
+          <li>Traction +45 kg × 2 <span style="color:var(--muted);font-weight:400;font-size:13px;float:right">+17 kg sur le 1RM, ambitieux</span></li>
+          <li>Dips +50 kg × 2 <span style="color:var(--muted);font-weight:400;font-size:13px;float:right">selon l'épaule — santé d'abord</span></li>
+        </ul></div>
+    </div>
+    <div class="call" style="margin-top:18px">
+      <div class="ct">Après le 30 août → bloc Hyrox</div>
+      <p style="margin-bottom:0">Ces 76 jours restent <b>focalisés physique + force</b> : pas de Hyrox dedans, ça réveillerait le piège du « tout en même temps ». Mais ton HIIT du samedi entretient déjà la base cardio qui te servira de tremplin. Une fois sec et fort au 30 août, on bascule sur un vrai bloc de prépa Hyrox — je te le construirai à ce moment-là.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="fq">La version que tu suis bat la version parfaite que tu abandonnes.</p>
+    <p>Programme Street Lifting · 15 juin → 30 août · Relis cette ligne chaque lundi. En route. 🔥</p>
+  </div>
+</footer>
+
+</body>
+</html>

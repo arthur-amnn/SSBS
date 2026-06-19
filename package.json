@@ -1,0 +1,12 @@
+{
+  "name": "ssbs-street-lifting",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "PWA de suivi d'entrainement Street Lifting (SSBS) — 100% local, hors-ligne, installable iPhone.",
+  "scripts": {
+    "test": "node --test",
+    "icons": "node tools/gen-icons.mjs",
+    "serve": "node tools/serve.mjs"
+  }
+}
